@@ -26,6 +26,8 @@ public class SceneTest extends Scene.Base {
 		HalfSpace floor = HalfSpace.pn(Vec3.xyz(0, -1, 3), Vec3.xyz(0, 1, 0),
 				v -> Material.matte(v.add(Vector.xy(0.05)).mod().min() < 0.1 ? 0.5 : 1)
 		);
+		Thread ballThread = new Thread(ball);
+		ballThread.start();
 		
 		solid = Group.of(floor, ball);
 		
