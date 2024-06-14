@@ -14,7 +14,8 @@ public record Material (
 		double refractiveIndex,
 		
 		Color emittance,
-		BSDF bsdf
+		BSDF bsdf,
+		Texture tex
 ) implements F1<Material, Vector> {
 	
 	public Material diffuse        (Color  diffuse        ) { return new Material(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance); }
@@ -26,7 +27,6 @@ public record Material (
 	public Material emittance      (Color  emittance      ) { return new Material(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance); }
 	
 	public Material specularCopyDiffuse() { return this.specular(diffuse()); }
-	
 	
 	public Material(Color diffuse, Color specular, double shininess, Color reflective, Color refractive, double refractiveIndex, Color emittance) {
 		this(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance,
@@ -47,7 +47,7 @@ public record Material (
 	
 	
 	public Material(BSDF bsdf) {
-		this(Color.BLACK, Color.BLACK, 32.0, Color.BLACK, Color.BLACK, 1.4, Color.BLACK, bsdf);
+		this(Color.BLACK, Color.BLACK, 32.0, Color.BLACK, Color.BLACK, 1.4, Color.BLACK, bsdf, tex);
 	}
 	
 	
@@ -94,7 +94,8 @@ public record Material (
 				refractive     .mul(k),
 				refractiveIndex   * k ,
 				emittance      .mul(k),
-				bsdf           .mul(k)
+				bsdf           .mul(k),
+				tex
 		);
 	}
 	
@@ -107,7 +108,8 @@ public record Material (
 				refractive     .add(o.refractive     ),
 				refractiveIndex   + o.refractiveIndex ,
 				emittance      .add(o.emittance      ),
-				BSDF.avg(new BSDF[] {this.bsdf, o.bsdf}, new double[] {1, 1})
+				BSDF.avg(new BSDF[] {this.bsdf, o.bsdf}, new double[] {1, 1}),
+				tex
 		);
 	}
 	

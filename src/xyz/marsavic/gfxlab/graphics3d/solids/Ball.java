@@ -81,7 +81,7 @@ public class Ball implements Solid {
 		
 		@Override
 		public Material material() {
-			return Ball.this.mapMaterial.at(uv());
+			return Ball.this.mapMaterial.at(getSphereUV(c));
 		}
 		
 		@Override
@@ -91,6 +91,16 @@ public class Ball implements Solid {
 					Numeric.atan2T(n.z(), n.x()),
 					4 * Numeric.asinT(n.y() / r)
 			);
+		}
+
+		// Izvor: https://raytracing.github.io/books/RayTracingTheNextWeek.html
+		private Vector getSphereUV(Vec3 p)
+		{
+			double theta = Math.acos(-p.y());
+			double phi = Math.atan2(-p.z(), p.x()) + Math.PI;
+			double u = phi / (2 * Math.PI);
+			double v = theta / Math.PI;
+			return Vector.xy(u, v);
 		}
 		
 		@Override
