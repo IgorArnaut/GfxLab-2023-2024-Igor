@@ -32,7 +32,7 @@ public class GfxLab {
 						new EAggregator(
 								e(Fs::transformedColorFunction,
 										e(RaytracerSimple::new, // Shadows are currently turned off to simplify rendering of SDF solids.
-												e(TestSDF::new),
+												e(SceneTest::new),
 												e(TransformedCamera::new,
 														e(Perspective::new, e(0.5)),
 														e(Affine.IDENTITY

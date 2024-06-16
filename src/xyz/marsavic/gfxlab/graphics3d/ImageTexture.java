@@ -18,7 +18,7 @@ public class ImageTexture extends Texture {
     // Izvor: https://www.tutorialspoint.com/javafx/javafx_images.htm
     public ImageTexture(String filename) throws FileNotFoundException {
         FileInputStream inputStream = new FileInputStream(filename);
-        Image image = new Image(inputStream);
+        image = new Image(inputStream);
     }
 
     // Izvor: https://raytracing.github.io/books/RayTracingTheNextWeek.html
