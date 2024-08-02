@@ -8,38 +8,39 @@ import java.util.function.DoubleUnaryOperator;
  * Colors in linear sRGB color space.
  */
 public class Color {
+
 	public static final Color BLACK = rgb(0, 0, 0);
 	public static final Color WHITE = rgb(1, 1, 1);
 	public static final Color DEBUG = rgb(1, 0, 0.5);
 	public static final Color NAN = rgb(Double.NaN, Double.NaN, Double.NaN);
 	
-	
+	// RGB
 	final double r, g, b;
  
- 
- 
+	// Konstruktor
 	private Color(double r, double g, double b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
 	}
 	
-	
+	// Factory metode
+	// Vraca boju po R, G i B vrednostima
 	public static Color rgb(double r, double g, double b) {
 		return new Color(r, g, b);
 	}
 	
-	
+	// Vraca boju po vektoru V
 	public static Color rgb(Vec3 v) {
 		return rgb(v.x(), v.y(), v.z());
 	}
 	
-	
+	// Vraca boju po broju K
 	public static Color gray(double k) {
 		return rgb(k, k, k);
 	}
 	
-	
+	// Vraca HSB boju po H, S i B vrednostima
 	public static Color hsb(double h, double s, double b) {
 		h = Numeric.mod(h);
 		int base = (int) (h * 6.0);
@@ -57,13 +58,14 @@ public class Color {
 			default -> null;
 		};
 	}
-	
-	
+
+	// Vraca HSB boju po vektoru V
 	public static Color hsb(Vec3 v) {
 		return hsb(v.x(), v.y(), v.z());
 	}
 	
-	
+	// Vraca OkLAB boju po L, A i B vrednostima
+	// Jako perceptualna
 	public static Color oklab(double l, double a, double b) {
 		double l_ = l + 0.3963377774f * a + 0.2158037573f * b;
 		double m_ = l - 0.1055613458f * a - 0.0638541728f * b;
@@ -80,12 +82,12 @@ public class Color {
 		return Color.rgb(cr, cg, cb);
 	}
 	
-	
+	// Vraca OkLAB boju po vektoru V
 	public static Color oklab(Vec3 v) {
 		return oklab(v.x(), v.y(), v.z());
 	}
 	
-	
+	// Vraca polarnu verziju OkLAB boju po H, C i L vrednostima
 	public static Color okhcl(double h, double c, double l) {
 		return oklab(
 			l,
@@ -93,13 +95,13 @@ public class Color {
 			c * Numeric.sinT(h)
 		);
 	}
-	
-	
+
+	// Vraca polarnu verziju OkLAB boju po vektoru V
 	public static Color okhcl(Vec3 v) {
 		return okhcl(v.x(), v.y(), v.z());
 	}
 	
-	
+	// Vraca boju po kodu (binarni racun)
 	public static Color code(int code) {
 		return rgb(
 				byteToValue((code >> 16) & 0xFF),
@@ -108,32 +110,32 @@ public class Color {
 		);
 	}
 	
-
+	// Sabira sa drugom bojom O
 	public Color add(Color o) {
 		return rgb(r + o.r, g + o.g, b + o.b);
 	}
 	
-	
+	// Oduzima drugu boju O
 	public Color sub(Color o) {
 		return rgb(r - o.r, g - o.g, b - o.b);
 	}
 	
-	
+	// Mnozi sa brojem C
 	public Color mul(double c) {
 		return rgb(r * c, g * c, b * c);
 	}
 	
-	
+	// Mnozi sa drugom bojom O
 	public Color mul(Color o) {
 		return rgb(r * o.r, g * o.g, b * o.b);
 	}
 	
-	
+	// Deli sa brojem C
 	public Color div(double c) {
 		return rgb(r / c, g / c, b / c);
 	}
 	
-	
+	// Stepenuje na stepen C
 	public Color pow(double c) {
 		return rgb(
 				Math.pow(r, c),
@@ -142,7 +144,7 @@ public class Color {
 		);
 	}
 	
-	
+	// Proizvoljna funkcija
 	public Color f(DoubleUnaryOperator f) {
 		return rgb(
 				f.applyAsDouble(r),
@@ -151,7 +153,7 @@ public class Color {
 		);
 	}
 	
-	
+	// Vraca percepciju osvetljenosti neke boje
 	public double luminance() {
 		return
 				0.212655 * r +
@@ -166,11 +168,10 @@ public class Color {
 	public double perceivedLightness() {
 		double y = luminance(); // y should be between 0.0 and 1.0
 		
-		if (y <= 216.0 / 24389.0 ) {      // The CIE standard states   0.008856, but ( 6/29)^3 =   216/24389 is the intent for   0.008856451679036.
+		if (y <= 216.0 / 24389.0 )        // The CIE standard states   0.008856, but ( 6/29)^3 =   216/24389 is the intent for   0.008856451679036.
 			return y * (24389.0 / 27.0);  // The CIE standard states 903.3     , but (29/ 3)^3 = 24389/   27 is the intent for 903.296296296296296.
-		} else {
+		else
 			return Math.cbrt(y) * 116.0 - 16.0;
-		}
 	}
 	
 	
@@ -181,23 +182,24 @@ public class Color {
 		double saturation = brightness == 0 ? 0 : delta / brightness;
 		double hue;
 		
-		if (saturation == 0) {
+		if (saturation == 0)
 			hue = 0;
-		} else {
+		else {
 			double redC   = (brightness - r) / delta;
 			double greenC = (brightness - g) / delta;
 			double blueC  = (brightness - b) / delta;
-			if (r == brightness) {
+
+			if (r == brightness)
 				hue = blueC - greenC;
-			} else if (g == brightness) {
+			else if (g == brightness)
 				hue = 2.0 + redC - blueC;
-			} else {
+			else
 				hue = 4.0 + greenC - redC;
-			}
+
 			hue = hue / 6.0;
-			if (hue < 0) {
+
+			if (hue < 0)
 				hue = hue + 1.0;
-			}
 		}
 		
 		return Vec3.xyz(hue, saturation, brightness);
@@ -312,11 +314,10 @@ public class Color {
 	 * sRGB gamma function. Approx. pow(v, 2.2).
 	 */
 	public static double inverseGamma(double v) {
-		if (v <= 0.04045) {
+		if (v <= 0.04045)
 			return v / 12.92;
-		} else {
+		else
 			return Math.pow((v + 0.055) / 1.055, 2.4);
-		}
 	}
 	
 	
@@ -324,11 +325,10 @@ public class Color {
 	 * Inverse of sRGB gamma function. Approx. pow(v, 1 / 2.2).
 	 */
 	public static double gamma(double v) {
-		if (v <= 0.0031308) {
+		if (v <= 0.0031308)
 			return v * 12.92;
-		} else {
+		else
 			return 1.055 * Math.pow(v, 1.0 / 2.4) - 0.055;
-		}
 	}
 	
 	

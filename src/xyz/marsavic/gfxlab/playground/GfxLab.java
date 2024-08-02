@@ -18,7 +18,6 @@ import xyz.marsavic.resources.Resource;
 
 import static xyz.marsavic.elements.ElementF.e;
 
-
 public class GfxLab {
 
 	public HasOutput<F1<Resource<Matrix<Integer>>, Integer>> sink;
@@ -27,12 +26,18 @@ public class GfxLab {
 	public GfxLab() {
 		//                       nFrames   width     height
 		var eSize = e(Vec3::new, e(1.0), e(640.0), e(640.0));
+
 		sink =
+				// Tone mapper
 				e(Fs::frFrameToneMapping,
+						//
 						new EAggregator(
+								// Definisanje boje za svaku tacku
 								e(Fs::transformedColorFunction,
+										// Raytracer
 										e(RaytracerSimple::new, // Shadows are currently turned off to simplify rendering of SDF solids.
-												e(TestSDF::new),
+												// Scena
+												e(SceneTest::new),
 												e(TransformedCamera::new,
 														e(Perspective::new, e(0.5)),
 														e(Affine.IDENTITY
@@ -63,7 +68,6 @@ public class GfxLab {
 						)
 				);
 	}
-	
 	
 }
 

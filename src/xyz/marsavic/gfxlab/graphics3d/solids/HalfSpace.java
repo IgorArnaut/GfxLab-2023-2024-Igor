@@ -17,16 +17,17 @@ public class HalfSpace implements Solid {
 	private final Vec3 n; // A normal vector to the boundary plane
 	private final Vec3 n_; // A normalized normal vector to the boundary plane
 	private final double e_f, f_e, eLSqr, fLSqr, sinSqr;
-	
-	
+
 	
 	private HalfSpace(Vec3 p, Vec3 e, Vec3 f, F1<Material, Vector> mapMaterial) {
 		this.p = p;
 		this.e = e;
 		this.f = f;
 		this.mapMaterial = mapMaterial;
+		// Normala
 		this.n = e.cross(f);
-		
+
+		// Normalizovana normala
 		n_ = n.normalized_();
 		
 		eLSqr = e.lengthSquared();
@@ -51,7 +52,8 @@ public class HalfSpace implements Solid {
 	public static HalfSpace pqr(Vec3 p, Vec3 q, Vec3 r, F1<Material, Vector> mapMaterial) {
 		return pef(p, q.sub(p), r.sub(p), mapMaterial);
 	}
-	
+
+
 	public static HalfSpace pqr(Vec3 p, Vec3 q, Vec3 r) {
 		return pqr(p, q, r, Material.DEFAULT);
 	}
@@ -63,7 +65,8 @@ public class HalfSpace implements Solid {
 		Vec3 f = n.cross(e).normalizedTo(nl);
 		return new HalfSpace(p, e, f, mapMaterial);
 	}
-	
+
+
 	public static HalfSpace pn(Vec3 p, Vec3 n) {
 		return pn(p, n, Material.DEFAULT);
 	}
@@ -92,12 +95,16 @@ public class HalfSpace implements Solid {
 	
 	@Override
 	public Hit firstHit(Ray ray, double afterTime) {
+		// Donja projekcija
 		double o = n().dot(ray.d());
+		// Gornja projekcija
 		double l = n().dot(p().sub(ray.p()));
-		
-		if (o == 0) {
+
+		// Tacka u ravni ili van ravni
+		if (o == 0)
 			return Hit.AtInfinity.axisAligned(ray.d(), l > 0);
-		}
+
+		// Vreme
 		double t = l / o;
 		return (t > afterTime) ? new HitHalfSpace(ray, t) : Hit.AtInfinity.axisAligned(ray.d(), l > 0);
 	}
@@ -112,8 +119,7 @@ public class HalfSpace implements Solid {
 				", n=" + n +
 				'}';
 	}
-	
-	
+
 	
 	class HitHalfSpace extends Hit.RayT {
 		
@@ -139,7 +145,8 @@ public class HalfSpace implements Solid {
 		@Override
 		public Vector uv() {
 			Vec3 b = ray().at(t()).sub(p);
-			
+
+			// Koordinatni sistem na ravni
 			double b_e = b.dot(e) / eLSqr;
 			double b_f = b.dot(f) / fLSqr;
 			
@@ -149,6 +156,5 @@ public class HalfSpace implements Solid {
 			);
 		}
 	}
-	
-	
+
 }

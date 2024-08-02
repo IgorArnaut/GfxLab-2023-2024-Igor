@@ -10,6 +10,7 @@ import java.util.function.DoubleUnaryOperator;
 
 @Immutable
 public class Vec3 {
+
 	public static final Vec3 ZERO = xyz(0, 0, 0);
 	public static final Vec3 ONES = xyz(1, 1, 1);
 	public static final Vec3 EX   = xyz(1, 0, 0);
@@ -28,28 +29,28 @@ public class Vec3 {
 	public static final Vec3 P201 = xyz(2, 0, 1);
 	public static final Vec3 P210 = xyz(2, 1, 0);
 	public static final Vec3[] PERMUTATIONS = {P012, P021, P102, P120, P201, P210};
-	
+
+	// Koordinate
 	private final double x, y, z;
-	
-	
-	
+
+	// Konstruktor
 	public Vec3(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 	
-	
+	// Vraca vektor po koordinatama X, Y i Z
 	public static Vec3 xyz(double x, double y, double z) {
 		return new Vec3(x, y, z);
 	}
 	
-	
+	// Vraca vektor po nizu celih koordinata
 	public static Vec3 fromArray(int[] i) {
 		return xyz(i[0], i[1], i[2]);
 	}
 	
-	
+	// Vraca vektor po nizu realnih koordinata
 	public static Vec3 fromArray(double[] i) {
 		return xyz(i[0], i[1], i[2]);
 	}
@@ -132,68 +133,68 @@ public class Vec3 {
 			997 * Double.doubleToLongBits(z);
 		return (int) (temp ^ (temp >>> 32));
 	}
-	
+
+	// Sabira vektor sa vektorom O
 	public Vec3 add(Vec3 o) {
 		return xyz(x() + o.x(), y() + o.y(), z() + o.z());
 	}
 	
-	
+	// Oduzima vektor O
 	public Vec3 sub(Vec3 o) {
 		return xyz(x() - o.x(), y() - o.y(), z() - o.z());
 	}
 	
-	
+	// Mnozi vektor sa brojem K
 	public Vec3 mul(double k) {
 		return xyz(x() * k, y() * k, z() * k);
 	}
 	
-	
+	// Mnozi vektor sa vektorom O
 	public Vec3 mul(Vec3 o) {
 		return xyz(x() * o.x(), y() * o.y(), z() * o.z());
 	}
 
-
+	// Deli vektor sa brojem K
 	public Vec3 div(double k) {
-		return xyz(x() / k, y() / k, z() / k);
+		return mul(1.0 / k);
 	}
 	
-	
+	// Deli vektor sa vektorom O
 	public Vec3 div(Vec3 o) {
 		return xyz(x() / o.x(), y() / o.y(), z() / o.z());
 	}
 	
-	
-	
+	// Kvadrirana duzina vektora
 	public double lengthSquared() {
 		return x() * x() + y() * y() + z() * z();
 	}
 	
-	
+	// Duzina vektora
 	public double length() {
 		return Math.sqrt(lengthSquared());
 	}
 	
-	
+	// Normalizovan vektor (podela sa duzinom)
 	public Vec3 normalized_() {
 		return div(length());
 	}
 	
-	
+	// Normalizovan vektor na neku duzinu L
 	public Vec3 normalizedTo(double l) {
 		return mul(l / length());
 	}
 	
-	
+	// Inverzni vektor
 	public Vec3 inverse() {
 		return xyz(-x(), -y(), -z());
 	}
 	
-	
+	// Skalarni proizvod
 	public double dot(Vec3 o) {
 		return x() * o.x() + y() * o.y() + z() * o.z();
 	}
 	
-	
+	// Vektorski proizvod
 	public Vec3 cross(Vec3 o) {
 		return xyz(
 			y() * o.z() - z() * o.y(),
@@ -202,93 +203,87 @@ public class Vec3 {
 		);
 	}
 	
-	
+	// Projekcija vektora D na vektor
 	public Vec3 projection(Vec3 d) {
 		return d.mul(this.dot(d) / d.lengthSquared());
 	}
 	
-
+	// Normalizovana projekcija vektora D_ na vektor
 	public Vec3 projectionN(Vec3 d_) {
 		return d_.mul(this.dot(d_));
 	}
 	
-	
+	// Rejekcija vektora D na vektor
 	public Vec3 rejection(Vec3 d) {
 		return this.sub(projection(d));
 	}
 	
-	
+	// Rejekcija vektora D_ na vektor
 	public Vec3 rejectionN(Vec3 d_) {
 		return this.sub(projectionN(d_));
 	}
 	
-	
+	// Vraca najmanju koordinatu
 	public double min() {
 		return Math.min(Math.min(x(), y()), z());
 	}
 
-	
+	// Vraca najvecu koordinatu
 	public double max() {
 		return Math.max(Math.max(x(), y()), z());
 	}
 	
-	
+	//
 	public Vec3 minIndicator() {
-		if (x() < y()) {
+		if (x() < y())
 			return x() < z() ? Vec3.EX : Vec3.EZ;
-		} else {
+		else
 			return y() < z() ? Vec3.EY : Vec3.EZ;
-		}
 	}
 	
 	
 	public Vec3 maxIndicator() {
-		if (x() > y()) {
+		if (x() > y())
 			return x() > z() ? Vec3.EX : Vec3.EZ;
-		} else {
+		else
 			return y() > z() ? Vec3.EY : Vec3.EZ;
-		}
 	}
 	
 	
 	public int minIndex() {
-		if (x() < y()) {
+		if (x() < y())
 			return x() < z() ? 0 : 2;
-		} else {
+		else
 			return y() < z() ? 1 : 2;
-		}
 	}
 	
 	
 	public int maxIndex() {
-		if (x() > y()) {
+		if (x() > y())
 			return x() > z() ? 0 : 2;
-		} else {
+		else
 			return y() > z() ? 1 : 2;
-		}
 	}
 	
 	
 	public Vec3 ranks() {
 		if (x() < y()) {
-			if (y() < z()) {
+			if (y() < z())
 				return P012;
-			} else {
-				if (x() < z()) {
+			else {
+				if (x() < z())
 					return P021;
-				} else {
+				else
 					return P201;
-				}
 			}
 		} else {
-			if (x() < z()) {
+			if (x() < z())
 				return P102;
-			} else {
-				if (y() < z()) {
+			else {
+				if (y() < z())
 					return P120;
-				} else {
+				else
 					return P210;
-				}
 			}
 		}
 	}
@@ -452,12 +447,11 @@ public class Vec3 {
 		);
 	}
 	
-	
+	// Linearna interpolacija izmedju dva vektora za parametar t
 	public static Vec3 lerp(Vec3 v0, Vec3 v1, double t) {
 		return v0.mul(1 - t).add(v1.mul(t));
 	}
 
-	
 	public static Vec3 random(RNG rng) {
 		return Vec3.xyz(rng.nextDouble(), rng.nextDouble(), rng.nextDouble());
 	}

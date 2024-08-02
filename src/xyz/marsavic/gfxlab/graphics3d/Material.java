@@ -16,8 +16,10 @@ public record Material (
 		Color emittance,
 		BSDF bsdf
 ) implements F1<Material, Vector> {
-	
+
+	// Osnovna boja
 	public Material diffuse        (Color  diffuse        ) { return new Material(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance); }
+	// Odbijena boja
 	public Material specular       (Color  specular       ) { return new Material(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance); }
 	public Material shininess      (double shininess      ) { return new Material(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance); }
 	public Material reflective     (Color  reflective     ) { return new Material(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance); }
@@ -26,8 +28,7 @@ public record Material (
 	public Material emittance      (Color  emittance      ) { return new Material(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance); }
 	
 	public Material specularCopyDiffuse() { return this.specular(diffuse()); }
-	
-	
+
 	public Material(Color diffuse, Color specular, double shininess, Color reflective, Color refractive, double refractiveIndex, Color emittance) {
 		this(diffuse, specular, shininess, reflective, refractive, refractiveIndex, emittance,
 				BSDF.avg(
@@ -56,11 +57,11 @@ public record Material (
 		return this;
 	}
 	
-	
 	// --- Utility constants and factory methods ---
-	
+	// Crna boja
 	public static final Material BLACK   = new Material(Color.BLACK, Color.BLACK, 32, Color.BLACK, Color.BLACK, 1.5, Color.BLACK);
-	
+
+	// Uniforman raspored osvetljenja u svim pravcima
 	public static Material matte (Color  c) { return BLACK.diffuse(c); }
 	public static Material matte (double k) { return matte(Color.gray(k)); }
 	public static Material matte (        ) { return matte(1.0); }
@@ -81,10 +82,9 @@ public record Material (
 	public static Material light (        ) { return light(1.0); }
 	public static final Material LIGHT = light();
 	
-	
+	// Podrazumevani Matte materijal
 	public static final Material DEFAULT = MATTE;
-	
-	
+
 	public Material mul(double k) {
 		return new Material(
 				diffuse        .mul(k),

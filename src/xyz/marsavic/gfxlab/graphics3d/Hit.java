@@ -15,17 +15,18 @@ public interface Hit {
 	Vec3 n();
 	
 	/** Surface material at the hit point. */
+	// Materijal
 	Material material();
 	
 	/** 2D coordinates in the internal coordinate system of the surface. */
+	// UV koordinate za materijal
 	Vector uv();
 	
 	/** The normalized normal at the point of the hit */
 	default Vec3 n_() {
 		return n().normalized_();
 	}
-	
-	
+
 	default Hit withN(Vec3 n) {
 		return new Hit() {
 			@Override public double   t       () { return Hit.this.t(); }
@@ -58,9 +59,12 @@ public interface Hit {
 	
 	// =====================================================================================================
 	
-	
+	// Staticka klasa
 	abstract class RayT implements Hit {
+
+		// Zrak
 		private final Ray ray;
+		// Vreme
 		private final double t;
 		
 		protected RayT(Ray ray, double t) {
@@ -76,9 +80,10 @@ public interface Hit {
 		public double t() {
 			return t;
 		}
+
 	}
 	
-	
+	// Vracanje zraka van tela
 	record AtInfinity(
 			double t,
 			Vec3 n

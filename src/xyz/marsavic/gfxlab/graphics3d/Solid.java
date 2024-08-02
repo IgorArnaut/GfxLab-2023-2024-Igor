@@ -15,15 +15,16 @@ public interface Solid {
 	 * dot product between the normal at the hit and the line direction should alternate. This should also hold for
 	 * the hit at infinity.
 	 */
+	// Vraca prvi susret zraka sa telom nakon nekog vremena
 	Hit firstHit(Ray ray, double afterTime);
 	
-	
+	// Vraca prvi susret zraka sa telom nakon 0 milisekundi
 	default Hit firstHit(Ray ray) {
 		return firstHit(ray, 0);
 	}
-	
-	
+
 	/** Is there any hit between afterTime and beforeTime. */
+	// Proverava da li je udarac u nekom vremenskom intervalu
 	default boolean hitBetween(Ray ray, double afterTime, double beforeTime) {
 		double t = firstHit(ray, afterTime).t();
 		return t < beforeTime;

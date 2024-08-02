@@ -8,14 +8,16 @@ import java.util.List;
 
 
 public interface Scene {
+
+	// Solidi
 	Solid solid();
 	
 	Collection<Light> lights();
-	
+
+	// Pozadinska boja
 	default Color colorBackground() {
 		return Color.BLACK;
 	}
-	
 	
 	class Base implements Scene {
 		
@@ -37,8 +39,7 @@ public interface Scene {
 		public Color colorBackground() {
 			return colorBackground;
 		}
-		
+
 	}
-	
 	
 }
