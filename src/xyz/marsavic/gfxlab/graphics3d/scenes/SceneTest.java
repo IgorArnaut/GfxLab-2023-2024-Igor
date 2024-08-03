@@ -1,5 +1,7 @@
 package xyz.marsavic.gfxlab.graphics3d.scenes;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
@@ -12,15 +14,33 @@ import xyz.marsavic.gfxlab.graphics3d.solids.HalfSpace;
 import xyz.marsavic.utils.Numeric;
 
 import java.util.Collections;
+import java.util.Objects;
 
 
 public class SceneTest extends Scene.Base {
+
+	Color getColor(javafx.scene.paint.Color c)
+	{
+		return Color.rgb(c.getRed(), c.getGreen(), c.getBlue());
+	}
 	
 	public SceneTest() {
+		Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("earthmap.jpg")));
+		PixelReader pr = image.getPixelReader();
+
+		for (int i = 0; i < image.getHeight(); i++)
+		{
+			for (int j = 0; j < image.getWidth(); j++)
+			{
+				double r = pr.getColor(j, i).getRed();
+				double g = pr.getColor(j, i).getGreen();
+				double b = pr.getColor(j, i).getBlue();
+				System.out.println(r + " " + g + " " + b);
+			}
+		}
+
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,
-				v -> (Numeric.mod(v.dot(Vector.xy(5, 4))) < 0.2 ?
-											Material.matte(Color.okhcl(v.y(), 0.125, 0.75)) :
-											Material.matte(0.1)
+				v -> (Material.matte(getColor(pr.getColor(v.xInt(), v.yInt())))
 				).specular(Color.WHITE).shininess(32)
 		);
 		HalfSpace floor = HalfSpace.pn(Vec3.xyz(0, -1, 3), Vec3.xyz(0, 1, 0),
