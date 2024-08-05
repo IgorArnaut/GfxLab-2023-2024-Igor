@@ -11,36 +11,56 @@ import xyz.marsavic.gfxlab.graphics3d.Scene;
 import xyz.marsavic.gfxlab.graphics3d.solids.Ball;
 import xyz.marsavic.gfxlab.graphics3d.solids.Group;
 import xyz.marsavic.gfxlab.graphics3d.solids.HalfSpace;
-import xyz.marsavic.utils.Numeric;
 
 import java.util.Collections;
-import java.util.Objects;
 
+import static java.lang.Math.*;
 
 public class SceneTest extends Scene.Base {
 
-	Color getColor(javafx.scene.paint.Color c)
-	{
-		return Color.rgb(c.getRed(), c.getGreen(), c.getBlue());
+	private Color getColorNN(Vector uv, Image image, PixelReader pr) {
+		// Dimenzije slike
+		System.out.println("Image width: " + image.getWidth());
+		System.out.println("Image height: " + image.getHeight());
+
+		// x i y koordinata uv vektora
+		System.out.println("uv.x(): " + uv.x());
+		System.out.println("uv.y(): " + uv.y());
+
+		// u i v koordinate
+		double u = abs(uv.x());
+		double v = abs(uv.y());
+
+		System.out.println("u: " + u);
+		System.out.println("v: " + v);
+
+		// Tacka (i, j) na slici
+		double i = round(image.getWidth() * u);
+		double j = round(image.getHeight() * v);
+
+		System.out.println("i: " + i);
+		System.out.println("j: " + j);
+
+//		System.out.println("r: " + pr.getColor(i, j).getRed());
+//		System.out.println("g: " + pr.getColor(i, j).getGreen());
+//		System.out.println("b: " + pr.getColor(i, j).getBlue());
+
+		return Color.rgb(
+				pr.getColor((int) i, (int) j).getRed(),
+				pr.getColor((int) i, (int) j).getGreen(),
+				pr.getColor((int) i, (int) j).getBlue()
+		);
 	}
-	
+
 	public SceneTest() {
-		Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("earthmap.jpg")));
+		Image image = new Image(getClass().getResourceAsStream("earthmap.jpg"));
 		PixelReader pr = image.getPixelReader();
 
-		for (int i = 0; i < image.getHeight(); i++)
-		{
-			for (int j = 0; j < image.getWidth(); j++)
-			{
-				double r = pr.getColor(j, i).getRed();
-				double g = pr.getColor(j, i).getGreen();
-				double b = pr.getColor(j, i).getBlue();
-				System.out.println(r + " " + g + " " + b);
-			}
-		}
-
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,
-				v -> (Material.matte(getColor(pr.getColor(v.xInt(), v.yInt())))
+				v -> (/*Numeric.mod(v.dot(Vector.xy(5, 4))) < 0.2 ?
+											Material.matte(getColorNN(v, image)) :
+											Material.matte(0.1) */
+											Material.matte(getColorNN(v, image, pr))
 				).specular(Color.WHITE).shininess(32)
 		);
 		HalfSpace floor = HalfSpace.pn(Vec3.xyz(0, -1, 3), Vec3.xyz(0, 1, 0),
