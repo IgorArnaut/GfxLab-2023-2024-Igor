@@ -21,8 +21,10 @@ public class SceneTest extends Scene.Base {
 
 	private Color getColorNN(Vector uv, Image image, PixelReader pr) {
 		// Dimenzije slike
-		System.out.println("Image width: " + image.getWidth());
-		System.out.println("Image height: " + image.getHeight());
+		double width = image.getWidth();
+		double height = image.getHeight();
+		System.out.println("Image width: " + width);
+		System.out.println("Image height: " + height);
 
 		// x i y koordinata uv vektora
 		System.out.println("uv.x(): " + uv.x());
@@ -31,15 +33,17 @@ public class SceneTest extends Scene.Base {
 		// u i v koordinate
 		double u = (uv.x() + 1) / 2;
 		double v = (uv.y() + 1) / 2;
-
 		System.out.println("u: " + u);
 		System.out.println("v: " + v);
 
 		// Tacka (i, j) na slici
-		double i = round(image.getWidth() * u);
-		double j = round(image.getHeight() * v);
+		double i = round(width * u);
+		double j = round(height * v);
 		// Flipovanje j koordinate
-		j = image.getHeight() - j - 1;
+		j = height - j - 1;
+
+		// Pomeranje i koordinate
+		i = (i + 0.6875 * width) % width;
 
 		System.out.println("i: " + i);
 		System.out.println("j: " + j);
