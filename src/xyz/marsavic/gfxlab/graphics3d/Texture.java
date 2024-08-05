@@ -5,6 +5,6 @@ import xyz.marsavic.gfxlab.Color;
 
 public interface Texture {
 
-    Color getColorAt(Vector uv);
+    Material getMaterialAt(Vector uv);
 
 }

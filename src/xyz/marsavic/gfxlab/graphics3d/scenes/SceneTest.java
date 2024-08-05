@@ -25,11 +25,7 @@ public class SceneTest extends Scene.Base {
 		Texture it = ImageTexture.create("/earthmap.jpg");
 
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,
-				v -> (/*Numeric.mod(v.dot(Vector.xy(5, 4))) < 0.2 ?
-											Material.matte(getColorNN(v, image)) :
-											Material.matte(0.1) */
-											Material.matte(it.getColorAt(v))
-				).specular(Color.WHITE).shininess(32)
+				v -> it.getMaterialAt(v).specular(Color.WHITE).shininess(32)
 		);
 		HalfSpace floor = HalfSpace.pn(Vec3.xyz(0, -1, 3), Vec3.xyz(0, 1, 0),
 				v -> Material.matte(v.add(Vector.xy(0.05)).mod().min() < 0.1 ? 0.5 : 1)

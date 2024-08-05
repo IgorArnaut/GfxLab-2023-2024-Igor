@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
+import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Texture;
 
 import java.io.InputStream;
@@ -27,7 +28,7 @@ public class ImageTexture implements Texture {
     }
 
     @Override
-    public Color getColorAt(Vector uv) {
+    public Material getMaterialAt(Vector uv) {
         // Dimenzije slike
         double width = image.getWidth();
         double height = image.getHeight();
@@ -44,11 +45,11 @@ public class ImageTexture implements Texture {
         // Flipovanje j
         ij = ij.withY(height - ij.y() - 1);
 
-        return Color.rgb(
+        return Material.matte(Color.rgb(
                 pr.getColor(ij.xInt(), ij.yInt()).getRed(),
                 pr.getColor(ij.xInt(), ij.yInt()).getGreen(),
                 pr.getColor(ij.xInt(), ij.yInt()).getBlue()
-        );
+        ));
     }
 
 }
