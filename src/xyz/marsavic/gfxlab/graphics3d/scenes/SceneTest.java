@@ -23,39 +23,23 @@ public class SceneTest extends Scene.Base {
 		// Dimenzije slike
 		double width = image.getWidth();
 		double height = image.getHeight();
-		System.out.println("Image width: " + width);
-		System.out.println("Image height: " + height);
 
-		// x i y koordinata uv vektora
-		System.out.println("uv.x(): " + uv.x());
-		System.out.println("uv.y(): " + uv.y());
+		// Koordinate u i v u novom opsegu
+		Vector uv2 = Vector.xy((uv.x() + 1) / 2, (uv.y() + 1) / 2);
 
-		// u i v koordinate
-		double u = (uv.x() + 1) / 2;
-		double v = (uv.y() + 1) / 2;
-		System.out.println("u: " + u);
-		System.out.println("v: " + v);
-
-		// Tacka (i, j) na slici
-		double i = round(width * u);
-		double j = round(height * v);
-		// Flipovanje j koordinate
-		j = height - j - 1;
-
-		// Pomeranje i koordinate
-		i = (i + 0.6875 * width) % width;
-
-		System.out.println("i: " + i);
-		System.out.println("j: " + j);
-
-//		System.out.println("r: " + pr.getColor(i, j).getRed());
-//		System.out.println("g: " + pr.getColor(i, j).getGreen());
-//		System.out.println("b: " + pr.getColor(i, j).getBlue());
+		// Koordinate i i j
+		Vector ij = uv2.mul(Vector.xy(width, height));
+		ij = ij.round();
+		// Pomeranje i i j
+		ij = ij.add(Vector.xy(0 * ij.x(), 0 * ij.y()));
+		ij = ij.mod(Vector.xy(width, height));
+		// Flipovanje j
+		ij = ij.withY(height - ij.y() - 1);
 
 		return Color.rgb(
-				pr.getColor((int) i, (int) j).getRed(),
-				pr.getColor((int) i, (int) j).getGreen(),
-				pr.getColor((int) i, (int) j).getBlue()
+				pr.getColor(ij.xInt(), ij.yInt()).getRed(),
+				pr.getColor(ij.xInt(), ij.yInt()).getGreen(),
+				pr.getColor(ij.xInt(), ij.yInt()).getBlue()
 		);
 	}
 
