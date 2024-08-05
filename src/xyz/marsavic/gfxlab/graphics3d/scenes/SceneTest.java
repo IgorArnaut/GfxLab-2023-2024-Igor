@@ -13,6 +13,7 @@ import xyz.marsavic.gfxlab.graphics3d.solids.Group;
 import xyz.marsavic.gfxlab.graphics3d.solids.HalfSpace;
 
 import java.util.Collections;
+import java.util.Objects;
 
 import static java.lang.Math.*;
 
@@ -28,8 +29,8 @@ public class SceneTest extends Scene.Base {
 		System.out.println("uv.y(): " + uv.y());
 
 		// u i v koordinate
-		double u = abs(uv.x());
-		double v = abs(uv.y());
+		double u = (uv.x() + 1) / 2;
+		double v = (uv.y() + 1) / 2;
 
 		System.out.println("u: " + u);
 		System.out.println("v: " + v);
@@ -37,6 +38,8 @@ public class SceneTest extends Scene.Base {
 		// Tacka (i, j) na slici
 		double i = round(image.getWidth() * u);
 		double j = round(image.getHeight() * v);
+		// Flipovanje j koordinate
+		j = image.getHeight() - j - 1;
 
 		System.out.println("i: " + i);
 		System.out.println("j: " + j);
@@ -53,7 +56,7 @@ public class SceneTest extends Scene.Base {
 	}
 
 	public SceneTest() {
-		Image image = new Image(getClass().getResourceAsStream("earthmap.jpg"));
+		Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("earthmap.jpg")));
 		PixelReader pr = image.getPixelReader();
 
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,
