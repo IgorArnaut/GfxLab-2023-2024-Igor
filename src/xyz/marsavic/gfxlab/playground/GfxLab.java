@@ -37,7 +37,7 @@ public class GfxLab {
 										// Raytracer
 										e(RaytracerSimple::new, // Shadows are currently turned off to simplify rendering of SDF solids.
 												// Scena
-												e(SceneTest::new),
+												e(CylinderTest::new),
 												e(TransformedCamera::new,
 														e(Perspective::new, e(0.5)),
 														e(Affine.IDENTITY
