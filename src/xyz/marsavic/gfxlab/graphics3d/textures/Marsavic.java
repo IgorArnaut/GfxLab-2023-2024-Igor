@@ -6,13 +6,23 @@ import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Texture;
 import xyz.marsavic.utils.Numeric;
 
-public class MarsavicTexture implements Texture {
+public class Marsavic implements Texture {
+
+    private Marsavic()
+    {}
+
+    public static Marsavic create()
+    {
+        return new Marsavic();
+    }
 
     @Override
     public Material getMaterialAt(Vector uv) {
-        return Numeric.mod(uv.dot(Vector.xy(5, 4))) < 0.2 ?
-                Material.matte(Color.okhcl(uv.y(), 0.125, 0.75)) :
-                Material.matte(0.1);
+        Vector uv2 = uv.mul(2);
+
+        return Numeric.mod(uv2.x() + uv2.y()) == 0 ?
+                Material.matte(1) :
+                Material.matte(0);
     }
 
 }
