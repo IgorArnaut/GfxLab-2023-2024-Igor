@@ -9,7 +9,7 @@ import xyz.marsavic.gfxlab.graphics3d.cameras.Perspective;
 import xyz.marsavic.gfxlab.graphics3d.cameras.ThinLensFOV;
 import xyz.marsavic.gfxlab.graphics3d.cameras.TransformedCamera;
 import xyz.marsavic.gfxlab.graphics3d.raytracing.Pathtracer;
-import xyz.marsavic.gfxlab.graphics3d.raytracing.RaytracerSimple;
+import xyz.marsavic.gfxlab.graphics3d.raytracing.Glasses3D;
 import xyz.marsavic.gfxlab.graphics3d.scenes.*;
 import xyz.marsavic.gfxlab.gui.UtilsGL;
 import xyz.marsavic.gfxlab.tonemapping.ColorTransform;
@@ -35,7 +35,7 @@ public class GfxLab {
 								// Definisanje boje za svaku tacku
 								e(Fs::transformedColorFunction,
 										// Raytracer
-										e(RaytracerSimple::new, // Shadows are currently turned off to simplify rendering of SDF solids.
+										e(Glasses3D::new, // Shadows are currently turned off to simplify rendering of SDF solids.
 												// Scena
 												e(SceneTest::new),
 												e(TransformedCamera::new,
