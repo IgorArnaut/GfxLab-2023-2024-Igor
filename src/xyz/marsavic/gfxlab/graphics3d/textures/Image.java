@@ -33,7 +33,7 @@ public class Image implements Texture {
         double height = image.getHeight();
 
         // Koordinate u i v pomerene u opseg [0, 1]
-        Vector uv2 = Vector.xy((uv.x() + 1) / 2, (uv.y() + 1) / 2);
+        Vector uv2 = Vector.xy(uv.x(), (uv.y() + 1) / 2);
 
         // Koordinate i i j
         Vector ij = uv2.mul(Vector.xy(width, height)).round();
@@ -47,8 +47,7 @@ public class Image implements Texture {
                 pr.getColor(ij.xInt(), ij.yInt()).getRed(),
                 pr.getColor(ij.xInt(), ij.yInt()).getGreen(),
                 pr.getColor(ij.xInt(), ij.yInt()).getBlue()
-        ));
-        // [1]
+        )); // [1]
     }
 
 }

@@ -1,10 +1,8 @@
 package xyz.marsavic.gfxlab.graphics3d.scenes;
 
-import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.Light;
-import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Scene;
 import xyz.marsavic.gfxlab.graphics3d.Texture;
 import xyz.marsavic.gfxlab.graphics3d.solids.Ball;
@@ -21,6 +19,7 @@ public class SceneTest extends Scene.Base {
 	public SceneTest() {
 		Texture t1 = Checkers.create(8);
 		Texture t2 = Image.create("/earthmap.jpg");
+		Texture t3 = Grid.create(2);
 
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,
 				v -> t2.getMaterialAt(v).specular(Color.WHITE).shininess(32)

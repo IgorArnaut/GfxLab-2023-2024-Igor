@@ -18,11 +18,9 @@ public class Marsavic implements Texture {
 
     @Override
     public Material getMaterialAt(Vector uv) {
-        Vector uv2 = uv.mul(2);
-
-        return Numeric.mod(uv2.x() + uv2.y()) == 0 ?
-                Material.matte(1) :
-                Material.matte(0);
+        return Numeric.mod(uv.dot(Vector.xy(5, 4))) < 0.2 ?
+                Material.matte(Color.okhcl(uv.y(), 0.125, 0.75)) :
+                Material.matte(0.1);
     }
 
 }
