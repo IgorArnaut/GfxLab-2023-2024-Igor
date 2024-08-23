@@ -104,6 +104,14 @@ public class Ball implements Solid {
 			);
 		}
 
+		public Vector bump()
+		{
+			Vector uv = uv();
+			Vector u = uv.withY(0);
+			Vector v = uv.withX(0);
+			return null;
+		}
+
 		// Normalizovana normala (podeljena duzinom poluprecnika)
 		@Override
 		public Vec3 n_() {
