@@ -26,19 +26,19 @@ public class Image implements Texture {
         return new Image(filename);
     }
 
-    public Color getColorAt(Vector uv) {
+    public Color colorAt(Vector uv) {
         // Dimenzije slike
         double width = image.getWidth();
         double height = image.getHeight();
 
         // Koordinate u i v pomerene u opseg [0, 1]
-        Vector uv2 = Vector.xy(uv.x(), (uv.y() + 1) / 2);
+        Vector uv2 = Vector.xy(uv.x() * 2 - 1, (uv.y() + 1) / 2);
 
         // Koordinate i i j
         Vector ij = uv2.mul(Vector.xy(width, height)).round();
         // Pomeranje i i j
-        ij = ij.add(Vector.xy(0 * ij.x(), 0 * ij.y()));
-        ij = ij.mod(Vector.xy(width, height));
+        // ij = ij.add(Vector.xy(0 * ij.x(), 0 * ij.y()));
+        // ij = ij.mod(Vector.xy(width, height));
         // Flipovanje j
         ij = ij.withY(height - ij.y() - 1);
 
@@ -51,7 +51,7 @@ public class Image implements Texture {
 
     @Override
     public Material at(Vector uv) {
-        return Material.matte(getColorAt(uv)); // [1]
+        return Material.matte(colorAt(uv)); // [1]
     }
 
 }

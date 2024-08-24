@@ -30,8 +30,8 @@ public class Grid implements Texture {
     public static Grid create(double k) { return create(k, k, Color.BLACK, Color.WHITE); }
 
     @Override
-    public Material at(Vector uv) {
-        return Material.matte(uv.mul(Vector.xy(w, h)).mod().min() < 0.1 ? c1 : c2);
+    public Color colorAt(Vector uv) {
+        return uv.mul(Vector.xy(w, h)).mod().min() < 0.1 ? c1 : c2;
     }
 
 }

@@ -19,7 +19,8 @@ public class SceneTest extends Scene.Base {
 
 	public SceneTest() {
 		Texture t1 = Checkers.create(8);
-		Texture t2 = Image.create("/earthmap.jpg");
+		Texture t2 = Image.create("/Metal_Plate_042_basecolor.jpg");
+		Image n2 = Image.create("/Metal_Plate_042_normal.jpg");
 		Texture t3 = Grid.create(2);
 
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,

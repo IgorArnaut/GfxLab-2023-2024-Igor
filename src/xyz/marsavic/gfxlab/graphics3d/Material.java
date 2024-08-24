@@ -58,9 +58,12 @@ public record Material (
 	
 	@Override
 	public Material at(Vector uv) {
+		if (normalMap != null)
+			return matte(texture.colorAt(uv).mul(normalMap.colorAt(uv)));
+
 		return texture.at(uv);
 	}
-	
+
 	// --- Utility constants and factory methods ---
 	// Crna boja
 	public static final Material BLACK   = new Material(Color.BLACK, Color.BLACK, 32, Color.BLACK, Color.BLACK, 1.5, Color.BLACK, null, null);
@@ -71,6 +74,8 @@ public record Material (
 	public static Material matte (double k) { return matte(Color.gray(k)); }
 	public static Material matte (        ) { return matte(1.0); }
 	public static final Material MATTE = matte();
+
+	public static Material normal (Image nm) { return BLACK.normalMap(nm); }
 
 	public static Material mirror(Color  c) { return BLACK.reflective(c); }
 	public static Material mirror(double k) { return mirror(Color.gray(k)); }

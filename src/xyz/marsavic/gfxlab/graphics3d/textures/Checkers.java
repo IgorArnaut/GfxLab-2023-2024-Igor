@@ -34,11 +34,9 @@ public class Checkers implements Texture {
     public static Checkers create(double k) { return create(k, k, Color.BLACK, Color.WHITE); }
 
     @Override
-    public Material at(Vector uv) {
+    public Color colorAt(Vector uv) {
         Vector uv2 = uv.mul(Vector.xy(w, h)).floor();
-        return floor(uv2.x() + uv2.y()) % 2.0 == 0 ?
-                Material.matte(c1) :
-                Material.matte(c2); // [1]
+        return floor(uv2.x() + uv2.y()) % 2.0 == 0 ? c1 : c2;
     }
 
 }

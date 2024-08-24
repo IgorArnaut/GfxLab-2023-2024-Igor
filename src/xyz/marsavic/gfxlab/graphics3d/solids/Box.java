@@ -4,6 +4,7 @@ package xyz.marsavic.gfxlab.graphics3d.solids;
 import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.BoxedObjectFactory;
+import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.Hit;
 import xyz.marsavic.gfxlab.graphics3d.Material;
