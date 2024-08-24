@@ -26,8 +26,7 @@ public class Image implements Texture {
         return new Image(filename);
     }
 
-    @Override
-    public Material getMaterialAt(Vector uv) {
+    public Color getColorAt(Vector uv) {
         // Dimenzije slike
         double width = image.getWidth();
         double height = image.getHeight();
@@ -43,11 +42,16 @@ public class Image implements Texture {
         // Flipovanje j
         ij = ij.withY(height - ij.y() - 1);
 
-        return Material.matte(Color.rgb(
+        return Color.rgb(
                 pr.getColor(ij.xInt(), ij.yInt()).getRed(),
                 pr.getColor(ij.xInt(), ij.yInt()).getGreen(),
                 pr.getColor(ij.xInt(), ij.yInt()).getBlue()
-        )); // [1]
+        );
+    }
+
+    @Override
+    public Material at(Vector uv) {
+        return Material.matte(getColorAt(uv)); // [1]
     }
 
 }

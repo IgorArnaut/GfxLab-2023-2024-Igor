@@ -1,8 +1,10 @@
 package xyz.marsavic.gfxlab.graphics3d.raytracing;
 
+import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.*;
+import xyz.marsavic.gfxlab.graphics3d.textures.Image;
 
 
 public class RaytracerSimple extends Raytracer {
@@ -35,6 +37,7 @@ public class RaytracerSimple extends Raytracer {
 		Vec3 p  = ray.at(hit.t());                  // The hit point
 		// Normalizovana normala sa tacke pogotka
 		Vec3 n_ = hit.n_();                         // Normalized normal to the body surface at the hit point
+		// Vec3 n_ = hit.newNormal(Image.create("/earthmap-normal.jpg"));                         // Normalized normal to the body surface at the hit point
 
 		Vec3 i_ = ray.d().inverse().normalized_();  // Incoming direction
 		Vec3 r_ = GeometryUtils.reflectedN(n_, i_); // Reflected ray (i_ reflected over n_)

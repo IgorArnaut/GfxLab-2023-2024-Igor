@@ -4,6 +4,6 @@ import xyz.marsavic.geometry.Vector;
 
 public interface Texture {
 
-    Material getMaterialAt(Vector uv);
+    Material at(Vector uv);
 
 }

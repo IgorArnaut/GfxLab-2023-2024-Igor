@@ -3,8 +3,10 @@ package xyz.marsavic.gfxlab.graphics3d;
 
 import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
+import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Transformation;
 import xyz.marsavic.gfxlab.Vec3;
+import xyz.marsavic.gfxlab.graphics3d.textures.Image;
 
 public interface Solid {
 	

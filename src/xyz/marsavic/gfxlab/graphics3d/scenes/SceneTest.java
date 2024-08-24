@@ -3,6 +3,7 @@ package xyz.marsavic.gfxlab.graphics3d.scenes;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.Light;
+import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Scene;
 import xyz.marsavic.gfxlab.graphics3d.Texture;
 import xyz.marsavic.gfxlab.graphics3d.solids.Ball;
@@ -22,10 +23,11 @@ public class SceneTest extends Scene.Base {
 		Texture t3 = Grid.create(2);
 
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,
-				v -> t2.getMaterialAt(v).specular(Color.WHITE).shininess(32)
+				// v -> t2.getMaterialAt(v).specular(Color.WHITE).shininess(32)
+				v -> Material.matte(t2).at(v).specular(Color.WHITE).shininess(32)
 		);
 		HalfSpace floor = HalfSpace.pn(Vec3.xyz(0, -1, 3), Vec3.xyz(0, 1, 0),
-                t1::getMaterialAt
+                v -> Material.matte(t1).at(v)
 		);
 		
 		solid = Group.of(floor, ball);

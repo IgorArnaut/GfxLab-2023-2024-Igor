@@ -7,23 +7,13 @@ import java.util.function.DoubleUnaryOperator;
 /**
  * Colors in linear sRGB color space.
  */
-public class Color {
+public record Color(double r, double g, double b) {
 
 	public static final Color BLACK = rgb(0, 0, 0);
 	public static final Color WHITE = rgb(1, 1, 1);
 	public static final Color DEBUG = rgb(1, 0, 0.5);
 	public static final Color NAN = rgb(Double.NaN, Double.NaN, Double.NaN);
-	
-	// RGB
-	final double r, g, b;
- 
-	// Konstruktor
-	private Color(double r, double g, double b) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
-	}
-	
+
 	// Factory metode
 	// Vraca boju po R, G i B vrednostima
 	public static Color rgb(double r, double g, double b) {
@@ -62,6 +52,10 @@ public class Color {
 	// Vraca HSB boju po vektoru V
 	public static Color hsb(Vec3 v) {
 		return hsb(v.x(), v.y(), v.z());
+	}
+
+	public double avg() {
+		return (r + g + b) / 3;
 	}
 	
 	// Vraca OkLAB boju po L, A i B vrednostima

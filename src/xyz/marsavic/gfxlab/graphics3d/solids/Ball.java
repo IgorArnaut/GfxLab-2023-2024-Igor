@@ -2,11 +2,14 @@ package xyz.marsavic.gfxlab.graphics3d.solids;
 
 import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
+import xyz.marsavic.gfxlab.Color;
+import xyz.marsavic.gfxlab.MatrixObject;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.Hit;
 import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Ray;
 import xyz.marsavic.gfxlab.graphics3d.Solid;
+import xyz.marsavic.gfxlab.graphics3d.textures.Image;
 import xyz.marsavic.utils.Numeric;
 
 
@@ -22,7 +25,6 @@ public class Ball implements Solid {
 	
 	// Kvadriran poluprecnik
 	private final double rSqr;
-	
 	
 	/** Negative r will make the ball inverted (the resulting solid is a complement of a ball). */
 	// Konstruktor
@@ -40,7 +42,7 @@ public class Ball implements Solid {
 	}
 
 	// Vraca loptu centra C i poluprecnika R
-	public static Ball cr(Vec3 c, double r) {
+	public static Ball cr(Vec3 c, double r,  Image nm) {
 		return cr(c, r, Material.DEFAULT);
 	}
 	
@@ -104,19 +106,28 @@ public class Ball implements Solid {
 			);
 		}
 
-		public Vector bump()
-		{
-			Vector uv = uv();
-			Vector u = uv.withY(0);
-			Vector v = uv.withX(0);
-			return null;
-		}
-
 		// Normalizovana normala (podeljena duzinom poluprecnika)
 		@Override
 		public Vec3 n_() {
 			return n().div(r);
 		}
+
+		/*
+		public Vec3 newNormal() {
+			Vec3 n = n();
+			Vec3 b = n.cross(Vec3.EY);
+			Vec3 t = n.cross(b);
+
+			Vector uv = uv();
+			Color c = nm.getColorAt(uv);
+
+			double x = t.x() * c.r() + b.x() * c.g() + n.x() * c.b();
+			double y = t.y() * c.r() + b.y() * c.g() + n.y() * c.b();
+			double z = t.z() * c.r() + b.z() * c.g() + n.z() * c.b();
+
+			return Vec3.xyz(x, y, z);
+		}
+		*/
 		
 	}
 	

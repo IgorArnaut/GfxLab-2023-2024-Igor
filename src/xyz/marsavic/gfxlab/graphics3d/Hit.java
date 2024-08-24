@@ -2,7 +2,9 @@ package xyz.marsavic.gfxlab.graphics3d;
 
 import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
+import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
+import xyz.marsavic.gfxlab.graphics3d.textures.Image;
 
 
 /** Interaction of a ray with a solid.*/
@@ -55,7 +57,6 @@ public interface Hit {
 			@Override public Material material() { return Hit.this.material(); }
 		};
 	}
-	
 	
 	// =====================================================================================================
 	

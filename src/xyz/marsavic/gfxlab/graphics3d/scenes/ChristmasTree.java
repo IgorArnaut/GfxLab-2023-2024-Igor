@@ -11,6 +11,7 @@ import xyz.marsavic.gfxlab.graphics3d.Solid;
 import xyz.marsavic.gfxlab.graphics3d.solids.Ball;
 import xyz.marsavic.gfxlab.graphics3d.solids.Group;
 import xyz.marsavic.gfxlab.graphics3d.solids.HalfSpace;
+import xyz.marsavic.gfxlab.graphics3d.textures.Image;
 import xyz.marsavic.random.sampling.Sampler;
 import xyz.marsavic.utils.Numeric;
 

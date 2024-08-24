@@ -39,9 +39,9 @@ public class MatrixColor implements Matrix<Color> {
 	
 	@Override
 	public void set(int x, int y, Color value) {
-		data[y][x][0] = value.r;
-		data[y][x][1] = value.g;
-		data[y][x][2] = value.b;
+		data[y][x][0] = value.r();
+		data[y][x][1] = value.g();
+		data[y][x][2] = value.b();
 	}
 	
 	
