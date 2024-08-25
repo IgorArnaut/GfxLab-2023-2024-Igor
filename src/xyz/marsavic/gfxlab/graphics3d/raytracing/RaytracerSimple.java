@@ -12,26 +12,6 @@ public class RaytracerSimple extends Raytracer {
 	
 	private final static double EPSILON = 1e-9;
 
-	public Vec3 mapNormal(Hit hit) {
-		Image normalMap = hit.material().normalMap();
-
-		if (normalMap != null) {
-			// Boja mape normala u uv tacki
-			Color c = hit.material().normalMap().colorAt(hit.uv());
-
-			// R == x
-			double r = c.r() * 2 - 1;
-			// G == y
-			double g = c.g() * 2 - 1;
-			// B == z
-			double b = c.b() * 2 - 1;
-
-			return Vec3.xyz(r, g, b);
-		} else {
-			return hit.n();
-		}
-	}
-
 	public RaytracerSimple(Scene scene, Camera camera) {
 		super(scene, camera);
 	}
@@ -56,12 +36,9 @@ public class RaytracerSimple extends Raytracer {
 		// Tacka pogotka
 		Vec3 p  = ray.at(hit.t());                  // The hit point
 		// Normalizovana normala sa tacke pogotka
-		Vec3 n_ = hit.n_();                         // Normalized normal to the body surface at the hit point
+		Vec3 n_ = hit.mapN();                         // Normalized normal to the body surface at the hit point
 		Vec3 i_ = ray.d().inverse().normalized_();  // Incoming direction
 		Vec3 r_ = GeometryUtils.reflectedN(n_, i_); // Reflected ray (i_ reflected over n_)
-
-		Vec3 t_ = n_.cross(ray.d().normalized_());
-		Vec3 b_ = t_.cross(n_);
 
 		Material material = hit.material();
 

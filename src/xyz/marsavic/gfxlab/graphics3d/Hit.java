@@ -1,6 +1,7 @@
 package xyz.marsavic.gfxlab.graphics3d;
 
 import xyz.marsavic.functions.F1;
+import xyz.marsavic.geometry.Transformation;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
@@ -23,6 +24,27 @@ public interface Hit {
 	/** 2D coordinates in the internal coordinate system of the surface. */
 	// UV koordinate za materijal
 	Vector uv();
+
+	default Vec3 mapN() {
+		Image normalMap = material().normalMap();
+
+		if (normalMap != null) {
+			// Boja mape normala u uv tacki
+			Color c = material().normalMap().colorAt(uv());
+
+			// R == x
+			double r = c.r() * 2 - 1;
+			// G == y
+			double g = c.g() * 2 - 1;
+			// B == z
+			double b = c.b() * 2 - 1;
+			System.out.println(r + " " + g + " "+  b);
+
+			return n_().mul(Vec3.xyz(r, g, b));
+		}
+
+		return n_();
+	}
 	
 	/** The normalized normal at the point of the hit */
 	default Vec3 n_() {

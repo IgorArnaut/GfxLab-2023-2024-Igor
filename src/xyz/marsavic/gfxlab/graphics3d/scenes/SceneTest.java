@@ -19,13 +19,13 @@ public class SceneTest extends Scene.Base {
 
 	public SceneTest() {
 		Texture t1 = Checkers.create(8);
-		Texture t2 = Image.create("/Metal_Plate_042_basecolor.jpg");
-		Image n2 = Image.create("/Metal_Plate_042_normal.jpg");
+		Texture t2 = Image.create("/Stylized_Tiles_003_basecolor.png");
+		Image n2 = Image.create("/Stylized_Tiles_003_normal.png");
 		Texture t3 = Grid.create(2);
 
 		Ball ball = Ball.cr(Vec3.xyz(0, 0, 2), 1,
 				// v -> t2.getMaterialAt(v).specular(Color.WHITE).shininess(32)
-				v -> Material.matte(t2).at(v).specular(Color.WHITE).shininess(32)
+				v -> Material.matte(t2).at(v).normalMap(n2).specular(Color.WHITE).shininess(32)
 		);
 		HalfSpace floor = HalfSpace.pn(Vec3.xyz(0, -1, 3), Vec3.xyz(0, 1, 0),
                 v -> Material.matte(t1).at(v)
