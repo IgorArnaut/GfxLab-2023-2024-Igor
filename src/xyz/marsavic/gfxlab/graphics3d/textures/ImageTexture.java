@@ -8,22 +8,22 @@ import xyz.marsavic.gfxlab.graphics3d.Texture;
 
 import java.io.InputStream;
 
-public class Image implements Texture {
+public class ImageTexture implements Texture {
 
     private final javafx.scene.image.Image image;
     private final PixelReader pr;
 
-    private Image(String filename)
+    private ImageTexture(String filename)
     {
-        InputStream is = Image.class.getResourceAsStream(filename);
+        InputStream is = ImageTexture.class.getResourceAsStream(filename);
         assert is != null;
         this.image = new javafx.scene.image.Image(is);
         this.pr = image.getPixelReader();
     }
 
-    public static Image create(String filename)
+    public static ImageTexture create(String filename)
     {
-        return new Image(filename);
+        return new ImageTexture(filename);
     }
 
     public Color colorAt(Vector uv) {

@@ -2,19 +2,17 @@ package xyz.marsavic.gfxlab.graphics3d.textures;
 
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
-import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Texture;
-import xyz.marsavic.utils.Numeric;
 
 import static java.lang.Math.*;
 
-public class Checkers implements Texture {
+public class CheckersTexture implements Texture {
 
     private final double w, h;
     private final Color c1;
     private final Color c2;
 
-    private Checkers(double w, double h, Color c1, Color c2)
+    private CheckersTexture(double w, double h, Color c1, Color c2)
     {
         this.w = w;
         this.h = h;
@@ -22,16 +20,16 @@ public class Checkers implements Texture {
         this.c2 = c2;
     }
 
-    public static Checkers create(double w, double h, Color c1, Color c2)
+    public static CheckersTexture create(double w, double h, Color c1, Color c2)
     {
-        return new Checkers(w, h, c1, c2);
+        return new CheckersTexture(w, h, c1, c2);
     }
 
-    public static Checkers create(double k, Color c1, Color c2) { return create(k, k, c1, c2); }
+    public static CheckersTexture create(double k, Color c1, Color c2) { return create(k, k, c1, c2); }
 
-    public static Checkers create(double w, double h) { return create(w, h, Color.BLACK, Color.WHITE); }
+    public static CheckersTexture create(double w, double h) { return create(w, h, Color.BLACK, Color.WHITE); }
 
-    public static Checkers create(double k) { return create(k, k, Color.BLACK, Color.WHITE); }
+    public static CheckersTexture create(double k) { return create(k, k, Color.BLACK, Color.WHITE); }
 
     @Override
     public Color colorAt(Vector uv) {

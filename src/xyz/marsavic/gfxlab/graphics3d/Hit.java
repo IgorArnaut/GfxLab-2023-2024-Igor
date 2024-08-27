@@ -1,11 +1,9 @@
 package xyz.marsavic.gfxlab.graphics3d;
 
-import xyz.marsavic.functions.F1;
-import xyz.marsavic.geometry.Transformation;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
-import xyz.marsavic.gfxlab.graphics3d.textures.Image;
+import xyz.marsavic.gfxlab.graphics3d.textures.ImageTexture;
 
 
 /** Interaction of a ray with a solid.*/
@@ -25,26 +23,7 @@ public interface Hit {
 	// UV koordinate za materijal
 	Vector uv();
 
-	default Vec3 mapN() {
-		Image normalMap = material().normalMap();
-
-		if (normalMap != null) {
-			// Boja mape normala u uv tacki
-			Color c = material().normalMap().colorAt(uv());
-
-			// R == x
-			double r = c.r() * 2 - 1;
-			// G == y
-			double g = c.g() * 2 - 1;
-			// B == z
-			double b = c.b() * 2 - 1;
-			System.out.println(r + " " + g + " "+  b);
-
-			return n_().mul(Vec3.xyz(r, g, b));
-		}
-
-		return n_();
-	}
+	Vec3 mapN();
 	
 	/** The normalized normal at the point of the hit */
 	default Vec3 n_() {
@@ -57,6 +36,7 @@ public interface Hit {
 			@Override public Vec3     n       () { return n; }
 			@Override public Material material() { return Hit.this.material(); }
 			@Override public Vector   uv      () { return Hit.this.uv(); }
+			@Override public Vec3     mapN    () { return Hit.this.mapN(); }
 		};
 	}
 	
@@ -67,6 +47,7 @@ public interface Hit {
 			@Override public Vec3     n_      () { return Hit.this.n_(); }
 			@Override public Material material() { return material; }
 			@Override public Vector   uv      () { return Hit.this.uv(); }
+			@Override public Vec3     mapN    () { return Hit.this.mapN(); }
 		};
 	}
 	
@@ -77,6 +58,7 @@ public interface Hit {
 			@Override public Vec3     n_      () { return Hit.this.n_().inverse(); }
 			@Override public Vector   uv      () { return Hit.this.uv(); }
 			@Override public Material material() { return Hit.this.material(); }
+			@Override public Vec3     mapN    () { return Hit.this.mapN().inverse(); }
 		};
 	}
 	
@@ -116,6 +98,7 @@ public interface Hit {
 		@Override public Vec3     n       () { return n; }
 		@Override public Vector   uv      () { return Vector.ZERO; }
 		@Override public Material material() { return Material.BLACK; }
+		@Override public Vec3     mapN    () { return n; }
 		
 		
 		public static AtInfinity inLine(Vec3 d, boolean future, boolean goingOut) {
@@ -157,5 +140,30 @@ public interface Hit {
 		}
 		
 	}
+
+	default Vec3 newNormal(Vec3 t_, Vec3 b_) {
+		ImageTexture normalMap = material().normalMap();
+
+		if (normalMap != null) {
+			// Boja mape normala u uv tacki
+			Color c = material().normalMap().colorAt(uv());
+			c = c.mul(2).sub(Color.rgb(1, 1, 1));
+
+			/* TBN matrica
+			   [tx bx nx] * [cx]
+			   [ty by ny]   [cy]
+			   [tz bz nz]   [cz]
+			 */
+			double x = t_.x() * c.r() + b_.x() * c.g() + n_().x() * c.b();
+			double y = t_.y() * c.r() + b_.y() * c.g() + n_().y() * c.b();
+			double z = t_.z() * c.r() + b_.z() * c.g() + n_().z() * c.b();
+			// [2]
+
+			return Vec3.xyz(x, y, z).normalized_();
+		}
+
+		return n_();
+	}
 	
 }
+// [2] https://learnopengl.com/Advanced-Lighting/Normal-Mapping

@@ -2,18 +2,17 @@ package xyz.marsavic.gfxlab.graphics3d.textures;
 
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.Color;
-import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Texture;
 import xyz.marsavic.utils.Numeric;
 
-public class Marsavic implements Texture {
+public class MarsavicTexture implements Texture {
 
-    private Marsavic()
+    private MarsavicTexture()
     {}
 
-    public static Marsavic create()
+    public static MarsavicTexture create()
     {
-        return new Marsavic();
+        return new MarsavicTexture();
     }
 
     @Override
