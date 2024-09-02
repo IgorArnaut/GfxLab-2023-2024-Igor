@@ -71,6 +71,12 @@ public interface SDF extends Solid {
 					(sdf.dist(p.add(dz)) - d) / EPS
 			);
 		}
+
+		@Override
+		public Vec3 mapN()
+		{
+			return n();
+		}
 		
 		@Override
 		public Material material() {
