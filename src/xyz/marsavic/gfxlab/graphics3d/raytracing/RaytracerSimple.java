@@ -9,7 +9,6 @@ public class RaytracerSimple extends Raytracer {
 	
 	private final static double EPSILON = 1e-9;
 
-
 	public RaytracerSimple(Scene scene, Camera camera) {
 		super(scene, camera);
 	}
@@ -17,7 +16,7 @@ public class RaytracerSimple extends Raytracer {
 
 	@Override
 	protected Color sample(Ray ray) {
-		return sample(ray, 64);
+		return sample(ray, 32);
 	}
 
 
@@ -34,11 +33,10 @@ public class RaytracerSimple extends Raytracer {
 		// Tacka pogotka
 		Vec3 p  = ray.at(hit.t());                  // The hit point
 		// Normalizovana normala sa tacke pogotka
-		Vec3 n_ = hit.n_();                         // Normalized normal to the body surface at the hit point
-
+		Vec3 n_ = hit.mapN();                       // Normalized normal to the body surface at the hit point
 		Vec3 i_ = ray.d().inverse().normalized_();  // Incoming direction
 		Vec3 r_ = GeometryUtils.reflectedN(n_, i_); // Reflected ray (i_ reflected over n_)
-		
+
 		Material material = hit.material();
 
 		// Pocetak od crne boje
@@ -91,7 +89,7 @@ public class RaytracerSimple extends Raytracer {
 			Color lightRefracted = sample(Ray.pd(p, f), depthRemaining - 1);
 			result = result.add(material.refractive().mul(lightRefracted));
 		}
-		
+
 		return result;
 	}
 

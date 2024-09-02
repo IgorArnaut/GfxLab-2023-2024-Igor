@@ -2,12 +2,16 @@ package xyz.marsavic.gfxlab.graphics3d.solids;
 
 import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
+import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.Hit;
 import xyz.marsavic.gfxlab.graphics3d.Material;
 import xyz.marsavic.gfxlab.graphics3d.Ray;
 import xyz.marsavic.gfxlab.graphics3d.Solid;
+import xyz.marsavic.gfxlab.graphics3d.textures.ImageTexture;
 import xyz.marsavic.utils.Numeric;
+
+import static xyz.marsavic.utils.Numeric.*;
 
 
 public class Ball implements Solid {
@@ -22,7 +26,6 @@ public class Ball implements Solid {
 	
 	// Kvadriran poluprecnik
 	private final double rSqr;
-	
 	
 	/** Negative r will make the ball inverted (the resulting solid is a complement of a ball). */
 	// Konstruktor
@@ -40,7 +43,7 @@ public class Ball implements Solid {
 	}
 
 	// Vraca loptu centra C i poluprecnika R
-	public static Ball cr(Vec3 c, double r) {
+	public static Ball cr(Vec3 c, double r,  ImageTexture nm) {
 		return cr(c, r, Material.DEFAULT);
 	}
 	
@@ -99,8 +102,8 @@ public class Ball implements Solid {
 		public Vector uv() {
 			Vec3 n = n();
 			return Vector.xy(
-					Numeric.atan2T(n.z(), n.x()),
-					4 * Numeric.asinT(n.y() / r)
+					atan2T(n.z(), n.x()),
+					4 * asinT(n.y() / r)
 			);
 		}
 
@@ -109,7 +112,22 @@ public class Ball implements Solid {
 		public Vec3 n_() {
 			return n().div(r);
 		}
+
+		@Override
+		public Vec3 mapN() {
+			// Ugao alpha == u
+			double alpha = uv().x();
+
+			// Jedinicna tangenta
+			Vec3 t_ = Vec3.xyz(-sinT(alpha), 0, cosT(alpha));
+			// Jedinicna bitangenta
+			Vec3 b_ = n_().cross(t_);
+			// [1]
+
+			return newNormal(t_, b_);
+		}
 		
 	}
 	
 }
+// [1] https://computergraphics.stackexchange.com/questions/5498/compute-sphere-tangent-for-normal-mapping

@@ -4,6 +4,7 @@ package xyz.marsavic.gfxlab.graphics3d.solids;
 import xyz.marsavic.functions.F1;
 import xyz.marsavic.geometry.Vector;
 import xyz.marsavic.gfxlab.BoxedObjectFactory;
+import xyz.marsavic.gfxlab.Color;
 import xyz.marsavic.gfxlab.Vec3;
 import xyz.marsavic.gfxlab.graphics3d.Hit;
 import xyz.marsavic.gfxlab.graphics3d.Material;
@@ -183,6 +184,7 @@ public class Box implements Solid, Iterable<Vec3> {
 		@Override public double t() { return t; }
 		@Override public Vec3 n_() { return n_; }
 		@Override public Vec3 n() { return n_; }
+		@Override public Vec3 mapN() { return n_; }
 		
 		@Override
 		public Material material() {

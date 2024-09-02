@@ -9,7 +9,7 @@ import xyz.marsavic.gfxlab.gui.UtilsGL;
 public interface Matrix<E> {
 	
 	Vector size();
-	
+
 	
 	E get(int x, int y);
 	

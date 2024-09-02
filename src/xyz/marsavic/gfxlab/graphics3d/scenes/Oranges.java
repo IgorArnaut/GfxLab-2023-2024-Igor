@@ -39,7 +39,7 @@ public class Oranges extends Scene.Base {
 					Vec3 c = dI.mul(i).add(dJ.mul(j)).add(dK.mul(k)).sub(o).mul(d).sub(Vec3.EY.mul(1-d/2-d*o.y()));
 					solids.add(Ball.cr(c, d/2,
 							v -> Numeric.mod(v.dot(Vector.xy(3, 2))) < 0.2 ? Material.light(Color.okhcl(v.y(), 0.12, 0.75)) : Material.matte(0.7)
-					));
+							));
 				}
 			}
 		}

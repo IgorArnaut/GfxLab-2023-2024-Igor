@@ -8,46 +8,50 @@ import xyz.marsavic.gfxlab.graphics3d.Texture;
 
 import java.io.InputStream;
 
-public class Image implements Texture {
+public class ImageTexture implements Texture {
 
     private final javafx.scene.image.Image image;
     private final PixelReader pr;
 
-    private Image(String filename)
+    private ImageTexture(String filename)
     {
-        InputStream is = Image.class.getResourceAsStream(filename);
+        InputStream is = ImageTexture.class.getResourceAsStream(filename);
         assert is != null;
         this.image = new javafx.scene.image.Image(is);
         this.pr = image.getPixelReader();
     }
 
-    public static Image create(String filename)
+    public static ImageTexture create(String filename)
     {
-        return new Image(filename);
+        return new ImageTexture(filename);
     }
 
-    @Override
-    public Material getMaterialAt(Vector uv) {
+    public Color colorAt(Vector uv) {
         // Dimenzije slike
         double width = image.getWidth();
         double height = image.getHeight();
 
         // Koordinate u i v pomerene u opseg [0, 1]
-        Vector uv2 = Vector.xy(uv.x(), (uv.y() + 1) / 2);
+        Vector uv2 = Vector.xy(uv.x() * 2 - 1, (uv.y() + 1) / 2);
 
         // Koordinate i i j
         Vector ij = uv2.mul(Vector.xy(width, height)).round();
         // Pomeranje i i j
-        ij = ij.add(Vector.xy(0 * ij.x(), 0 * ij.y()));
-        ij = ij.mod(Vector.xy(width, height));
+        // ij = ij.add(Vector.xy(0 * ij.x(), 0 * ij.y()));
+        // ij = ij.mod(Vector.xy(width, height));
         // Flipovanje j
         ij = ij.withY(height - ij.y() - 1);
 
-        return Material.matte(Color.rgb(
+        return Color.rgb(
                 pr.getColor(ij.xInt(), ij.yInt()).getRed(),
                 pr.getColor(ij.xInt(), ij.yInt()).getGreen(),
                 pr.getColor(ij.xInt(), ij.yInt()).getBlue()
-        )); // [1]
+        );
+    }
+
+    @Override
+    public Material at(Vector uv) {
+        return Material.matte(colorAt(uv)); // [1]
     }
 
 }
