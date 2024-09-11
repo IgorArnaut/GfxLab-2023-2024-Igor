@@ -31,11 +31,8 @@ public class ImageTexture implements Texture {
         double width = image.getWidth();
         double height = image.getHeight();
 
-        // Koordinate u i v pomerene u opseg [0, 1]
-        Vector uv2 = Vector.xy(uv.x() * 2 - 1, (uv.y() + 1) / 2);
-
         // Koordinate i i j
-        Vector ij = uv2.mul(Vector.xy(width, height)).round();
+        Vector ij = uv.mul(Vector.xy(width, height)).round();
         // Pomeranje i i j
         // ij = ij.add(Vector.xy(0 * ij.x(), 0 * ij.y()));
         // ij = ij.mod(Vector.xy(width, height));

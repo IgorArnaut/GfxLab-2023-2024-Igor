@@ -102,8 +102,8 @@ public class Ball implements Solid {
 		public Vector uv() {
 			Vec3 n = n();
 			return Vector.xy(
-					atan2T(n.z(), n.x()),
-					4 * asinT(n.y() / r)
+					atan2T(n.z(), n.x()) * 2 - 1,
+					(4 * asinT(n.y()) + 1) / 2
 			);
 		}
 

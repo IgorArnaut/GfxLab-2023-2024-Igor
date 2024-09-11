@@ -149,11 +149,13 @@ public class HalfSpace implements Solid {
 			// Koordinatni sistem na ravni
 			double b_e = b.dot(e) / eLSqr;
 			double b_f = b.dot(f) / fLSqr;
-			
-			return Vector.xy(
+
+			Vector uv = Vector.xy(
 					(b_e - b_f * f_e) / sinSqr,
 					(b_f - b_e * e_f) / sinSqr
 			);
+			System.out.println("(u, v) = (" + uv.x() + ", " + uv.y() + ")");
+			return uv;
 		}
 
 		@Override
